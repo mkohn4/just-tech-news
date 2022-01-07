@@ -1,25 +1,27 @@
 
 async function editFormHandler(event) {
     event.preventDefault();
+    const title = document.querySelector('input[name="post-title"]').value;
+    console.log(event.target.children);
 
     console.log('edit button clicked');
-
-    const id = window.location.toString().split('/')[
-        window.location.toString.split('/').length - 1
-    ];
+    console.log(window.location.toString().split('/'));
+    const urlArray = window.location.toString().split('/');
+    const id = urlArray[urlArray.length - 1];
     //need to find a way to get the post title here
-    const title = document.querySelector('input[name="post-title"]').value.trim();
+    console.log(title);
     const response = await fetch(`/api/posts/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
-            title
+            title:title
         }),
-        header: {
+        headers: {
             'Content-Type': 'application/json'
         }
     });
+    console.log(response);
     if (response.ok) {
-        document.location.replace('/dashboard/');
+        //document.location.replace('/dashboard/');
     } else {
         alert(response.statusText);
     }
@@ -27,5 +29,5 @@ async function editFormHandler(event) {
 
 
 
-document.querySelector('.edit-post-btn').addEventListener('submit', editFormHandler);
+document.querySelector('.edit-post-form').addEventListener('submit', editFormHandler);
 
